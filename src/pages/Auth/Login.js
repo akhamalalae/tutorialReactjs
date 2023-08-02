@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { accountService } from "../../services/accountService";
-import { LoginFormSubmit } from '../../components/Users/LoginFormSubmit';
+import { LoginFormSubmit } from '../../components/Auth/LoginFormSubmit';
 
 const Login = () => {
     let navigate = useNavigate()
