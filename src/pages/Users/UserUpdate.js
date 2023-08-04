@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState} from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { userService } from "../../services/userService";
 import { UpdateUserFormSubmit } from '../../components/Users/UpdateUserFormSubmit';
+import Container from '@mui/material/Container';
 
 const UserUpdate = () => {
     const [user, setUser] = useState([])
@@ -50,10 +51,12 @@ const UserUpdate = () => {
     }, [])
 
     return (
-         <form onSubmit={onSubmit}>
-            <UpdateUserFormSubmit onChange={onChange} user={user}/>
-        </form>
-    );
+        <Container maxWidth={false}>
+            <form onSubmit={onSubmit}>
+                <UpdateUserFormSubmit onChange={onChange} user={user}/>
+            </form>
+        </Container>
+   );
 };
 
 export default UserUpdate;

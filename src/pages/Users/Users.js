@@ -21,9 +21,9 @@ export default function Users() {
     { field: 'firstName', headerName: 'First name', width: 130 },
     { field: 'lastName', headerName: 'Last name', width: 130 },
     {
-      field: 'dateNaissance',
-      headerName: 'Date de naissance',
-      type: 'number',
+      field: 'birthday',
+      headerName: 'Date birthday',
+      type: 'datetime',
       width: 160,
     },
     {
@@ -57,16 +57,18 @@ export default function Users() {
     if(flag.current === false){
       userService.getAllUsers()
         .then(res => {
-            let newUsers = [];
-            res.data["hydra:member"].map((obj) => {
-              newUsers = [...newUsers,
-                          {id: obj.id,
-                          lastName: obj.lastname,
-                          firstName: obj.firstname,
-                          dateNaissance: dateFormat(obj.dateCreation, "yyyy/MM/dd") }
-                        ]
-            });
-            setUsers(newUsers);
+            let newUsers = []
+            let data = res.data["hydra:member"]
+            data.forEach( obj =>
+              newUsers = [...newUsers, {
+                  id: obj.id,
+                  lastName: obj.lastname,
+                  firstName: obj.firstname,
+                  birthday: dateFormat(obj.dateCreation, "yyyy/MM/dd")
+                }
+              ]
+            )
+            setUsers(newUsers)
         })
         .catch(error => console.log(error))
     }
@@ -99,8 +101,8 @@ export default function Users() {
 
   return (
     <div className= "Users" style={{ height: 400, width: '100%' }}>
-    <Container maxWidth="xl">
-    <h1>List of users </h1>
+    <Container maxWidth={false}>
+      <h1>List of users </h1>
       <Box m={1} display="flex" justifyContent="flex-end" alignItems="flex-end" >
         <NavLink to="/user/add" >
           <Button variant="contained" endIcon={<SendIcon />}>

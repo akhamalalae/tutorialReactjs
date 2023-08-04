@@ -10,7 +10,7 @@ let getAllUsers = () => {
 
 /**
  * Récupération d'un utilisateur
- * @param {number} uid 
+ * @param {number} uid
  * @returns {Promise}
  */
 let getUser = (uid) => {

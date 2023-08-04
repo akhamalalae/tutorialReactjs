@@ -1,43 +1,85 @@
-import Input from '@mui/material/Input';
+import React, { useState} from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Button from '@mui/material/Button';
 import '../css/style.css';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import Visibility from '@mui/icons-material/Visibility';
+import OutlinedInput from '@mui/material/OutlinedInput';
 
 export function AddUserFormSubmit(props) {
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
   return (
-    <div>
-      <div className='centre_element'>
-                <h1>Ajouter un utilisateur</h1>
-                <br/>
-                <div>
-                    <FormControl>
-                        <InputLabel htmlFor="firstname">Nom</InputLabel>
-                        <Input type="text" name="firstname" onChange={props.onChange} />
-                    </FormControl>
-                    <FormControl>
-                        <InputLabel htmlFor="lastname">Prénom</InputLabel>
-                        <Input type="text" name="lastname" onChange={props.onChange}/>
-                    </FormControl>
-                </div>
-                <br/>
-                <div>
-                    <FormControl>
-                        <InputLabel htmlFor="username">Email address</InputLabel>
-                        <Input type="text" name="username" onChange={props.onChange} />
-                    </FormControl>
-                    <FormControl>
-                        <InputLabel htmlFor="password">Mot de passes</InputLabel>
-                        <Input type="text" name="password" onChange={props.onChange}/>
-                    </FormControl>
-                </div>
-                <br/>
-                <div>
-                    <FormControl>
-                        <Button variant="contained" type="submit">Ajouter</Button>
-                    </FormControl>
-                </div>
-            </div>
-    </div>
+      <div className=''>
+            <h1>Add user</h1>
+            <br/>
+            <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap >
+                <FormControl fullWidth sx={{ m: 1 }}>
+                    <TextField
+                        id="firstname"
+                        label="Firstname"
+                        name="firstname"
+                        required
+                        onChange={props.onChange}
+                    />
+                </FormControl>
+                <FormControl fullWidth sx={{ m: 1 }}>
+                    <TextField
+                        id="lastname"
+                        label="Lastname"
+                        name="lastname"
+                        onChange={props.onChange}
+                    />
+                </FormControl>
+                <FormControl fullWidth sx={{ m: 1 }} variant="outlined">
+                    <InputLabel htmlFor="Password">Password</InputLabel>
+                    <OutlinedInput
+                        id="password"
+                        label="Password"
+                        name="password"
+                        onChange={props.onChange}
+                        type={showPassword ? 'text' : 'password'}
+                        endAdornment={
+                        <InputAdornment position="end">
+                            <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                            >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+                        </InputAdornment>
+                        }
+                    />
+                </FormControl>
+            </Stack>
+            <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap >
+                <FormControl fullWidth sx={{ m: 1 }}>
+                    <TextField
+                        id="username"
+                        label="Email"
+                        name="username"
+                        onChange={props.onChange}
+                    />
+                </FormControl>
+            </Stack>
+            <Stack direction='row' spacing={2}>
+                <FormControl sx={{ m: 1, width: '$0ch' }}>
+                    <Button variant="contained" type="submit">Ajouter</Button>
+                </FormControl>
+            </Stack>
+
+        </div>
   );
 }

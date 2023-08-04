@@ -12,7 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AutoAwesomeMotion from '@mui/icons-material/AutoAwesomeMotion';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { accountService } from "../services/accountService";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const pages = ['Home', 'Users'];
 const routesPages = { 'Home': '/', 'Users': '/users' }
@@ -61,7 +61,6 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
-              aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
@@ -88,14 +87,15 @@ function ResponsiveAppBar() {
               }}
             >
               {pages.map((page) => (
-                <a href={routesPages[page]} >
-                    <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
-                    </MenuItem>
-                </a>
+                <Link key={page} to={routesPages[page]}>
+                  <MenuItem key={page} onClick={handleCloseNavMenu}>
+                    {page}
+                  </MenuItem>
+                </Link>
               ))}
             </Menu>
           </Box>
+
           <AutoAwesomeMotion sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant="h5"
