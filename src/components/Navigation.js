@@ -14,8 +14,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { accountService } from "../services/accountService";
 import { Link, useNavigate } from 'react-router-dom';
 
-const pages = ['Home', 'Users'];
-const routesPages = { 'Home': '/', 'Users': '/users' }
+const pages = ['Home', 'Users', 'Product'];
+const routesPages = { 'Home': '/', 'Users': '/users', 'Product': '/product'}
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -35,7 +35,7 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <div className="Navigation">
+    <div>
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>

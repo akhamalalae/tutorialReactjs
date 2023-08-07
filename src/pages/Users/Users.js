@@ -79,7 +79,6 @@ export default function Users() {
   const handleCancelClick = (id) => () => {
     console.log(id);
     console.log("handleCancelClick");
-    //<Link to={`/admin/user/edit/${user.id}`}>{user.id}</Link>
     userService.deleteUser(id)
         .then(res => {
           navigate("/users", {replace: true})
@@ -100,7 +99,7 @@ export default function Users() {
   }
 
   return (
-    <div className= "Users" style={{ height: 400, width: '100%' }}>
+    <div style={{ height: 400, width: '100%' }}>
     <Container maxWidth={false}>
       <h1>List of users </h1>
       <Box m={1} display="flex" justifyContent="flex-end" alignItems="flex-end" >

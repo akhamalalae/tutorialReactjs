@@ -20,7 +20,7 @@ export function AddUserFormSubmit(props) {
         event.preventDefault();
     };
   return (
-      <div className=''>
+      <div>
             <h1>Add user</h1>
             <br/>
             <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap >
