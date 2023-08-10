@@ -53,8 +53,6 @@ export function ProductFormSubmit(props) {
 
   return (
       <div>
-            <h1>{props.titleForm}</h1>
-            <br/>
             <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap >
                 <FormControl fullWidth sx={{ m: 1 }}>
                     <TextField
@@ -72,6 +70,9 @@ export function ProductFormSubmit(props) {
                         name="description"
                         value={""+props.product.description !== "undefined" ? ""+props.product.description : ""}
                         onChange={props.onChange}
+                        multiline
+                        rows={3}
+                        maxRows={4}
                     />
                 </FormControl>
             </Stack>
@@ -97,7 +98,7 @@ export function ProductFormSubmit(props) {
                 </FormControl>
             </Stack>
             <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap >
-                <FormControl sx={{ m: 1, width: 300 }}>
+                <FormControl fullWidth sx={{ m: 1 }}>
                     <InputLabel id="demo-multiple-checkbox-label">Categories</InputLabel>
                     <Select
                     labelId="demo-multiple-checkbox-label"
@@ -111,8 +112,8 @@ export function ProductFormSubmit(props) {
                     MenuProps={MenuProps}
                     >
                     {categories.map((categorie) => (
-                        <MenuItem key={categorie.id} value={categorie.url}>
-                        <Checkbox checked={(! props.product.categories ? [] : props.product.categories).indexOf(categorie.url) > -1} />
+                        <MenuItem key={categorie.id} value={categorie.libelle}>
+                        <Checkbox checked={(! props.product.categories ? [] : props.product.categories).indexOf(categorie.libelle) > -1} />
                         <ListItemText primary={categorie.libelle} />
                         </MenuItem>
                     ))}

@@ -33,7 +33,6 @@ let constructObject = (product) => {
     return object
 }
 
-
 // Décaraltion des esrvices pour import
 export const productService = {
     getAllProducts, getProduct, addProduct, updateProduct, deleteProduct, constructObject

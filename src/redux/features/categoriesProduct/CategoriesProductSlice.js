@@ -7,11 +7,13 @@ export const CategoriesProductSlice = createSlice({
     initialState,
     reducers: {
       addCategoriesProduct: (state, action) => {
-        state.push(action.payload);
+        const categorie = action.payload
+        state.push(categorie);
+        //state[categorie.id] = categorie
       },
       editeCategoriesProduct: (state, action) => {
         const categorie = action.payload
-        state.map((p,k) => (p.id === categorie.id) ? state[k] = categorie : state[k] = p)
+        state.map((c,k) => (c.id === categorie.id) ? state[k] = categorie : state[k] = c)
       },
       deleteCategoriesProduct: (state, action) => {
         state = state.filter((p) => p.id !== action.payload)

@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useSelector, useDispatch } from 'react-redux'
 import { GridActionsCellItem} from '@mui/x-data-grid-pro';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -9,16 +9,24 @@ import { ProductFormSubmit } from "../../components/Product/ProductFormSubmit";
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import { productService } from "../../services/productService";
+import * as React from 'react';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
 
 const Product = () => {
     const products = useSelector((state) => state.product)
+    const categories = useSelector((state) => state.categoriesProduct)
     const dispatch = useDispatch()
     const [product, setProduct] = useState([]);
     const [titleForm, setTitleForm] = useState("");
     const [titleButtonForm, setTitleButtonForm] = useState("");
     const [isCreateProduct, setIsCreateProduct] = useState(false);
-    const [showFormProduct, setShowFormProduct] = useState(false);
     const flag = useRef(false)
+    const [open, setOpen] = React.useState(false);
+
     const columns = [
       { field: 'id', headerName: 'ID', width: 70 },
       { field: 'libelle', headerName: 'Libelle', width: 130 },
@@ -62,8 +70,7 @@ const Product = () => {
       },
     ];
 
-    useEffect(() => {
-      if(flag.current === false){
+    const getAllProducts = useCallback(() => {
         productService.getAllProducts()
           .then(res => {
               let data = res.data["hydra:member"]
@@ -75,9 +82,15 @@ const Product = () => {
               )
           })
           .catch(error => console.log(error))
-      }
-      return () => flag.current = true
     }, [dispatch]);
+
+    useEffect(() => {
+      if(flag.current === false){
+          getAllProducts()
+      }
+
+      return () => flag.current = true
+    }, [getAllProducts]);
 
     const onChangeFieldsForm = (e) => {
         if(e.target.name === "categories"){
@@ -118,11 +131,20 @@ const Product = () => {
 
     const handleEditClick = (id) => () => {
       if(id){
-        setShowFormProduct(true);
+        setOpen(true);
         setTitleButtonForm("Update")
         setTitleForm("Update product")
         productService.getProduct(id)
           .then(res => {
+              res.data.categories.forEach((pc,keypc) =>
+                categories.forEach((c,keyc) =>
+                  {
+                    if(pc === c.url){
+                      res.data.categories[keypc] = c.libelle
+                    }
+                  }
+                )
+              )
               setProduct(productService.constructObject(res.data))
           })
           .catch(err => console.log(err))
@@ -134,7 +156,7 @@ const Product = () => {
     }
 
     const handleCreateClick = (event) => {
-      setShowFormProduct(true);
+      setOpen(true);
       setIsCreateProduct(true)
       setTitleButtonForm("Add")
       setTitleForm("Add product")
@@ -143,6 +165,16 @@ const Product = () => {
 
     const onSubmit = (e) => {
       e.preventDefault()
+
+      product.categories.forEach((pc,keypc) =>
+        categories.forEach((c,keyc) =>
+          {
+            if(pc === c.libelle){
+              product.categories[keypc] = c.url
+            }
+          }
+        )
+      )
 
       if(isCreateProduct === true){
         productService.addProduct(product)
@@ -166,6 +198,10 @@ const Product = () => {
       }
     }
 
+    const handleClose = () => {
+      setOpen(false);
+    };
+
     return (
       <div style={{ height: 400, width: '100%' }}>
         <Container maxWidth={false}>
@@ -188,14 +224,24 @@ const Product = () => {
           <Fab size="small" color="primary" aria-label="add product" onClick={handleCreateClick}>
             <AddIcon />
           </Fab>
-          {showFormProduct === true ?
-            <div>
-              <form onSubmit={onSubmit}>
-                <ProductFormSubmit onChange={onChangeFieldsForm} titleButtonForm={titleButtonForm} titleForm={titleForm} product={product} />
-              </form>
-            </div>
-            : ""
-          }
+          <React.Fragment>
+            <Dialog
+              fullWidth={true}
+              maxWidth={'max-width'}
+              open={open}
+              onClose={handleClose}
+            >
+              <DialogTitle>{titleForm}</DialogTitle>
+              <DialogContent>
+                  <form onSubmit={onSubmit}>
+                      <ProductFormSubmit onChange={onChangeFieldsForm} titleButtonForm={titleButtonForm} product={product} />
+                  </form>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose}>Close</Button>
+              </DialogActions>
+            </Dialog>
+          </React.Fragment>
         </Container>
       </div>
     );
