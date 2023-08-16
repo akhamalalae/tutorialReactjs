@@ -1,7 +1,7 @@
 ## Module de l'application
   1. Authentification
   - Se connecter a l'application
-  - Se deconnecter de l'applicatio
+  - Se deconnecter de l'application
 
   2. Gestion des utilisateurs
   - Lister les utilisateurs
@@ -17,10 +17,10 @@
 ## Environnement technique
 
 1. ReactJS
-  - React Router : routage des pages.
-  - Axios : bibliothèque pour envoyer des requêtes HTTP asynchrones aux points de terminaison REST.
-  - Material-UI : outils intuitifs de l'interface utilisateur React.
-  - Redux : bibliothèque pour gérer les états de l'application.
+  - React Router : routage des pages
+  - Axios : bibliothèque pour envoyer des requêtes HTTP asynchrones aux points de terminaison REST
+  - Material-UI : outils intuitifs de l'interface utilisateur React
+  - Redux : bibliothèque pour gérer les états de l'application
 
 2. Dépôt distant
   - Github
