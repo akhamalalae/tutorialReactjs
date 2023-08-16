@@ -25,11 +25,11 @@
 2. Dépôt distant
   - Github
 
-1. Dépôt local
+3. Dépôt local
   - Git
 
-2. API REST consommer par l'application React
-  - Se référer au dépot : https://github.com/akhamalalae/projetCRM
+4. API REST consommer par l'application React
+  - Se référer au dépôt : https://github.com/akhamalalae/projetCRM
 
 
 ## Installation
@@ -43,5 +43,5 @@
 3 : Lancer l'application
   - npm start
 
-3 : Lancer l'api REST
+4 : Lancer l'api REST
   - instaler le project : https://github.com/akhamalalae/projetCRM
