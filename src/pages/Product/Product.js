@@ -15,6 +15,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import { categoriesProductService } from "../../services/categoriesProductService";
 
 const Product = () => {
     const products = useSelector((state) => state.product)
@@ -84,13 +85,30 @@ const Product = () => {
           .catch(error => console.log(error))
     }, [dispatch]);
 
+    const getAllCategories = useCallback(() => {
+      if(flag.current === false){
+        categoriesProductService.getAllCategories()
+        .then(res => {
+            let data = res.data["hydra:member"]
+            data.forEach( obj =>
+              dispatch({
+                type: "categoriesProduct/addCategoriesProduct",
+                payload: categoriesProductService.constructObject(obj)
+              })
+            )
+        })
+        .catch(error => console.log(error))
+      }
+    }, [dispatch]);
+
     useEffect(() => {
       if(flag.current === false){
           getAllProducts()
+          getAllCategories()
       }
 
       return () => flag.current = true
-    }, [getAllProducts]);
+    }, [getAllProducts, getAllCategories]);
 
     const onChangeFieldsForm = (e) => {
         if(e.target.name === "categories"){
@@ -129,6 +147,10 @@ const Product = () => {
           })
     };
 
+    const onRowSelectionModelChange = (newRowSelectionModel) => {
+      console.log(newRowSelectionModel);
+    }
+
     const handleEditClick = (id) => () => {
       if(id){
         setOpen(true);
@@ -151,10 +173,6 @@ const Product = () => {
       }
     };
 
-    const onRowSelectionModelChange = (newRowSelectionModel) => {
-        console.log(newRowSelectionModel);
-    }
-
     const handleCreateClick = (event) => {
       setOpen(true);
       setIsCreateProduct(true)
@@ -162,6 +180,10 @@ const Product = () => {
       setTitleForm("Add product")
       setProduct([])
     }
+
+    const handleClose = () => {
+      setOpen(false);
+    };
 
     const onSubmit = (e) => {
       e.preventDefault()
@@ -179,11 +201,10 @@ const Product = () => {
       if(isCreateProduct === true){
         productService.addProduct(product)
           .then(res => {
-            setProduct(productService.constructObject(res.data))
-                dispatch({
-                    type: "product/addProduct",
-                    payload: productService.constructObject(res.data)
-                })
+              dispatch({
+                  type: "product/addProduct",
+                  payload: productService.constructObject(res.data)
+              })
           })
           .catch(err => console.log(err))
       }else{
@@ -196,11 +217,8 @@ const Product = () => {
           })
           .catch(err => console.log(err))
       }
-    }
-
-    const handleClose = () => {
       setOpen(false);
-    };
+    }
 
     return (
       <div style={{ height: 400, width: '100%' }}>
@@ -231,7 +249,7 @@ const Product = () => {
               open={open}
               onClose={handleClose}
             >
-              <DialogTitle>{titleForm}</DialogTitle>
+              <DialogTitle>{titleForm} : {product.libelle}</DialogTitle>
               <DialogContent>
                   <form onSubmit={onSubmit}>
                       <ProductFormSubmit onChange={onChangeFieldsForm} titleButtonForm={titleButtonForm} product={product} />

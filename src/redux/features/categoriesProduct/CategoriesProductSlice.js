@@ -9,7 +9,6 @@ export const CategoriesProductSlice = createSlice({
       addCategoriesProduct: (state, action) => {
         const categorie = action.payload
         state.push(categorie);
-        //state[categorie.id] = categorie
       },
       editeCategoriesProduct: (state, action) => {
         const categorie = action.payload
