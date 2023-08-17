@@ -13,7 +13,11 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import ListItemText from '@mui/material/ListItemText';
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
+import ListGroup from 'react-bootstrap/ListGroup';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Alert from 'react-bootstrap/Alert';
+import { settingsService } from '../../services/settingsService';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -97,6 +101,31 @@ export function ProductFormSubmit(props) {
                         ))}
                         </Select>
                     </FormControl>
+                </Stack>
+                <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap >
+                <FormControl fullWidth sx={{ m: 1 }}>
+                    <Alert variant="light">
+                        <Alert.Heading>Add Files</Alert.Heading>
+                            <TextField
+                                variant="outlined"
+                                type="file"
+                                inputProps={{
+                                    multiple: true
+                                }}
+                                id="file"
+                                name="file"
+                                onChange={props.onChange}
+                        />
+                        <hr />
+                        <ListGroup defaultActiveKey="#link1" className="mb-0">
+                            {props.productFiles.map((file) => (
+                                <ListGroup.Item variant="primary" action href={settingsService.urlBase()+file.contentUrl} key={file.fileName} target="_blank" download>
+                                    {file.fileName}
+                                </ListGroup.Item>
+                            ))}
+                        </ListGroup>
+                    </Alert>
+                </FormControl>
                 </Stack>
                 <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap >
                     <FormControl fullWidth sx={{ m: 1 }}>

@@ -27,6 +27,8 @@ const Product = () => {
     const [isCreateProduct, setIsCreateProduct] = useState(false);
     const flag = useRef(false)
     const [open, setOpen] = React.useState(false);
+    const [uplodedFiles, setUplodedFiles] = useState([]);
+    const [productFiles, setProductFiles] = useState([]);
 
     const columns = [
       { field: 'id', headerName: 'ID', width: 70 },
@@ -119,6 +121,8 @@ const Product = () => {
             ...product,
             [e.target.name]: typeof value === 'string' ? value.split(',') : value,
           })
+        }else if(e.target.name === "file"){
+          setUplodedFiles(e.target.files);
         }else if(e.target.name === "status"){
           setProduct({
             ...product,
@@ -168,6 +172,8 @@ const Product = () => {
                 )
               )
               setProduct(productService.constructObject(res.data))
+              setProductFiles(res.data.attachement)
+              console.log(productFiles)
           })
           .catch(err => console.log(err))
       }
@@ -183,6 +189,18 @@ const Product = () => {
 
     const handleClose = () => {
       setOpen(false);
+    };
+
+    const addProductFiles = (product) => {
+        for (let i = 0; i < uplodedFiles.length; i++) {
+          const data = new FormData();
+          data.append("file", uplodedFiles[i]);
+          productService.attachementProduct(product.id, data)
+          .then(res => {
+              console.log(res);
+          })
+          .catch(err => console.log(err))
+        }
     };
 
     const onSubmit = (e) => {
@@ -205,6 +223,7 @@ const Product = () => {
                   type: "product/addProduct",
                   payload: productService.constructObject(res.data)
               })
+              addProductFiles(res.data)
           })
           .catch(err => console.log(err))
       }else{
@@ -214,6 +233,7 @@ const Product = () => {
                 type: "product/editeProduct",
                 payload: productService.constructObject(res.data)
               })
+              addProductFiles(product)
           })
           .catch(err => console.log(err))
       }
@@ -252,7 +272,7 @@ const Product = () => {
               <DialogTitle>{titleForm} : {product.libelle}</DialogTitle>
               <DialogContent>
                   <form onSubmit={onSubmit}>
-                      <ProductFormSubmit onChange={onChangeFieldsForm} titleButtonForm={titleButtonForm} product={product} />
+                      <ProductFormSubmit productFiles={productFiles} onChange={onChangeFieldsForm} titleButtonForm={titleButtonForm} product={product} />
                   </form>
               </DialogContent>
               <DialogActions>

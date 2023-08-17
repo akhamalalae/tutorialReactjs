@@ -20,6 +20,10 @@ let deleteProduct = (uid) => {
     return Axios.delete('/produits/'+uid)
 }
 
+let attachementProduct = (uid, data) => {
+    return Axios.post('/produits/'+uid+'/attachement', data)
+}
+
 let constructObject = (product) => {
     let object = {
         id: product.id,
@@ -35,5 +39,5 @@ let constructObject = (product) => {
 
 // Décaraltion des esrvices pour import
 export const productService = {
-    getAllProducts, getProduct, addProduct, updateProduct, deleteProduct, constructObject
+    getAllProducts, getProduct, addProduct, updateProduct, deleteProduct, constructObject, attachementProduct
 }
