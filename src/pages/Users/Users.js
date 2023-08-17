@@ -64,7 +64,7 @@ export default function Users() {
                   id: obj.id,
                   lastName: obj.lastname,
                   firstName: obj.firstname,
-                  birthday: dateFormat(obj.dateCreation, "yyyy/MM/dd")
+                  birthday: dateFormat(obj.dateCreation, "yyyy/mm/dd")
                 }
               ]
             )

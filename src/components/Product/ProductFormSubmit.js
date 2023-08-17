@@ -18,6 +18,9 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Alert from 'react-bootstrap/Alert';
 import { settingsService } from '../../services/settingsService';
+import DownloadIcon from '@mui/icons-material/Download';
+import Fab from '@mui/material/Fab';
+import dateFormat from 'dateformat';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -117,10 +120,20 @@ export function ProductFormSubmit(props) {
                                 onChange={props.onChange}
                         />
                         <hr />
-                        <ListGroup defaultActiveKey="#link1" className="mb-0">
+                        <ListGroup as="ol" numbered>
                             {props.productFiles.map((file) => (
-                                <ListGroup.Item variant="primary" action href={settingsService.urlBase()+file.contentUrl} key={file.fileName} target="_blank" download>
-                                    {file.fileName}
+                                <ListGroup.Item
+                                as="li"
+                                className="d-flex justify-content-between align-items-start"
+                                key={file.fileName}
+                                >
+                                    <div className="ms-2 me-auto">
+                                    <div className="fw-bold">{file.fileName.split("_")[1]}</div>
+                                        {dateFormat(file.updatedAt, "yyyy:mm:dd hh:mm")}
+                                    </div>
+                                    <Fab color="primary" size="small" aria-label="add" href={settingsService.urlBase()+file.contentUrl} key={file.fileName} target="_blank" download>
+                                        <DownloadIcon />
+                                    </Fab>
                                 </ListGroup.Item>
                             ))}
                         </ListGroup>
