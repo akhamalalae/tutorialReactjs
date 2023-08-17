@@ -173,7 +173,6 @@ const Product = () => {
               )
               setProduct(productService.constructObject(res.data))
               setProductFiles(res.data.attachement)
-              console.log(productFiles)
           })
           .catch(err => console.log(err))
       }
@@ -185,6 +184,7 @@ const Product = () => {
       setTitleButtonForm("Add")
       setTitleForm("Add product")
       setProduct([])
+      setProductFiles([])
     }
 
     const handleClose = () => {
